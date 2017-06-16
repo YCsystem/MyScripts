@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="24">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>9</ID>
+      <Description>"Player ID"</Description>
+      <LastState Value="065F31CC" RealAddress="04A795F4"/>
+      <ShowAsHex>1</ShowAsHex>
+      <VariableType>4 Bytes</VariableType>
+      <Address>game.dat+62B688</Address>
+      <Offsets>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"Money"</Description>
+      <LastState Value="110214" RealAddress="065F3204"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>game.dat+62B688</Address>
+      <Offsets>
+        <Offset>38</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>10</ID>
+      <Description>"Current Power"</Description>
+      <LastState Value="10" RealAddress="065F3250"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>game.dat+62B688</Address>
+      <Offsets>
+        <Offset>84</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>11</ID>
+      <Description>"Required Power"</Description>
+      <LastState Value="0" Activated="1" RealAddress="065F3254"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>game.dat+62B688</Address>
+      <Offsets>
+        <Offset>88</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>35</ID>
+      <Description>"General's Star"</Description>
+      <LastState Value="5" RealAddress="065F3354"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>game.dat+62B688</Address>
+      <Offsets>
+        <Offset>188</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>36</ID>
+      <Description>"General's XP"</Description>
+      <LastState Value="1000000" Activated="1" RealAddress="065F3358"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>game.dat+62B688</Address>
+      <Offsets>
+        <Offset>18C</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>16</ID>
+      <Description>"General Points"</Description>
+      <LastState Value="100" Activated="1" RealAddress="065F335C"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>game.dat+62B688</Address>
+      <Offsets>
+        <Offset>190</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>37</ID>
+      <Description>"Max General's XP"</Description>
+      <LastState Value="2147483647" RealAddress="065F3360"/>
+      <VariableType>4 Bytes</VariableType>
+      <Address>game.dat+62B688</Address>
+      <Offsets>
+        <Offset>194</Offset>
+        <Offset>C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>54</ID>
+      <Description>"Unlimited Money"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+aobscan(Money_Decrease,8B 74 24 78 57 8B F9)
+registersymbol(Money_Decrease)
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+push eax
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode
+add eax,00000034
+cmp eax,ecx
+je exit
+
+originalcode:
+pop eax
+mov esi,[esp+78]
+push edi
+jmp returnhere
+
+exit:
+pop eax
+mov [esp+78],0
+mov esi,[esp+78]
+push edi
+jmp returnhere
+
+Money_Decrease:
+jmp newmem
+returnhere:
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+unregistersymbol(Money_Decrease)
+dealloc(newmem)
+Money_Decrease:
+mov esi,[esp+78]
+push edi
+//Alt: db 8B 74 24 78 57
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>29</ID>
+      <Description>"Invulnerable Army"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+aobscan(Damage_Taken,8B 4E 24 8B 46 14 89 4D E8)
+registersymbol(Damage_Taken)
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+push eax
+push ebx
+cmp [esi+14],0B
+je originalcode
+cmp [ebp-1C],0
+je originalcode
+mov ebx,[ebp-1C]
+mov ebx,[ebx+000001B0]
+cmp ebx,0
+je originalcode
+mov ebx,[ebx+08]
+mov ebx,[ebx+0C]
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode
+cmp eax,ebx
+je exit
+
+originalcode:
+pop ebx
+pop eax
+mov ecx,[esi+24]
+mov eax,[esi+14]
+jmp returnhere
+
+exit:
+pop ebx
+pop eax
+mov [esi+24],0
+mov ecx,[esi+24]
+mov eax,[esi+14]
+jmp returnhere
+
+Damage_Taken:
+jmp newmem
+nop
+returnhere:
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+unregistersymbol(Damage_Taken)
+dealloc(newmem)
+Damage_Taken:
+mov ecx,[esi+24]
+mov eax,[esi+14]
+//Alt: db 8B 4E 24 8B 46 14
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"Instant Training &amp; Upgrade"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+aobscan(Instant_Unit_Upgrade,DB 43 14 89 44 24 10)
+registersymbol(Instant_Unit_Upgrade)
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+push eax
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode
+cmp eax,edi
+je exit
+
+originalcode:
+pop eax
+fild dword ptr [ebx+14]
+mov [esp+10],eax
+jmp returnhere
+
+exit:
+pop eax
+mov [ebx+14],eax
+fild dword ptr [ebx+14]
+mov [esp+10],eax
+jmp returnhere
+
+Instant_Unit_Upgrade:
+jmp newmem
+nop
+nop
+returnhere:
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+unregistersymbol(Instant_Unit_Upgrade)
+dealloc(newmem)
+Instant_Unit_Upgrade:
+fild dword ptr [ebx+14]
+mov [esp+10],eax
+//Alt: db DB 43 14 89 44 24 10
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"Instant Build"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+aobscan(Build,D8 74 24 14 D9 86 9C 01 00 00)
+registersymbol(Build)
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+push eax
+push ebx
+cmp ebx,0
+je originalcode
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode
+mov ebx,[ebx+000001B0]
+cmp ebx,0
+je originalcode
+mov ebx,[ebx+08]
+mov ebx,[ebx+0C]
+cmp eax,ebx
+je exit
+
+originalcode:
+pop ebx
+pop eax
+fdiv dword ptr [esp+14]
+fld dword ptr [esi+0000019C]
+jmp returnhere
+
+exit:
+pop ebx
+pop eax
+mov [esp+14],(Float)1
+fdiv dword ptr [esp+14]
+fld dword ptr [esi+0000019C]
+jmp returnhere
+
+Build:
+jmp newmem
+nop
+nop
+nop
+nop
+nop
+returnhere:
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+unregistersymbol(Build)
+dealloc(newmem)
+Build:
+fdiv dword ptr [esp+14]
+fld dword ptr [esi+0000019C]
+//Alt: db D8 74 24 14 D9 86 9C 01 00 00
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>18</ID>
+      <Description>"Instant Cooldown"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+aobscan(General_Cooldown,8B 40 0C 5F 5E 5B 83 C4 08)
+registersymbol(General_Cooldown)
+alloc(newmem_General_Cooldown,2048)
+label(returnhere_General_Cooldown)
+label(originalcode_General_Cooldown)
+label(exit_General_Cooldown)
+
+newmem_General_Cooldown: //this is allocated memory, you have read,write,execute access
+push eax
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode_General_Cooldown
+cmp eax,[esp+04]
+je exit_General_Cooldown
+
+originalcode_General_Cooldown:
+pop eax
+mov eax,[eax+0C]
+pop edi
+pop esi
+jmp returnhere_General_Cooldown
+
+exit_General_Cooldown:
+pop eax
+mov [eax+0C],0
+mov eax,[eax+0C]
+pop edi
+pop esi
+jmp returnhere_General_Cooldown
+
+General_Cooldown:
+jmp newmem_General_Cooldown
+returnhere_General_Cooldown:
+
+aobscan(Unit_Cooldown,8B 71 18 ?? ?? 72 0C)
+registersymbol(Unit_Cooldown)
+alloc(newmem_Unit_Cooldown,2048)
+label(returnhere_Unit_Cooldown)
+label(originalcode_Unit_Cooldown)
+label(exit_Unit_Cooldown)
+
+newmem_Unit_Cooldown: //this is allocated memory, you have read,write,execute access
+push eax
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode_Unit_Cooldown
+cmp eax,[esp+30]
+je exit_Unit_Cooldown
+
+originalcode_Unit_Cooldown:
+pop eax
+mov esi,[ecx+18]
+cmp edi,esi
+jmp returnhere_Unit_Cooldown
+
+exit_Unit_Cooldown:
+pop eax
+mov [ecx+18],0
+mov esi,[ecx+18]
+cmp edi,esi
+jmp returnhere_Unit_Cooldown
+
+Unit_Cooldown:
+jmp newmem_Unit_Cooldown
+returnhere_Unit_Cooldown:
+
+aobscan(Building_Cooldown,53 55 8B 6E 04)
+registersymbol(Building_Cooldown)
+alloc(newmem_Building_Cooldown,2048)
+label(returnhere_Building_Cooldown)
+label(originalcode_Building_Cooldown)
+label(exit_Building_Cooldown)
+
+newmem_Building_Cooldown: //this is allocated memory, you have read,write,execute access
+push eax
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode_Building_Cooldown
+cmp eax,[esp+30]
+je exit_Building_Cooldown
+
+originalcode_Building_Cooldown:
+pop eax
+push ebx
+push ebp
+mov ebp,[esi+04]
+jmp returnhere_Building_Cooldown
+
+exit_Building_Cooldown:
+pop eax
+push ebx
+push ebp
+mov [esi+04],0
+mov ebp,[esi+04]
+jmp returnhere_Building_Cooldown
+
+Building_Cooldown:
+jmp newmem_Building_Cooldown
+returnhere_Building_Cooldown:
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+unregistersymbol(General_Cooldown)
+dealloc(newmem_General_Cooldown)
+General_Cooldown:
+mov eax,[eax+0C]
+pop edi
+pop esi
+//Alt: db 8B 40 0C 5F 5E
+
+unregistersymbol(Unit_Cooldown)
+dealloc(newmem_Unit_Cooldown)
+Unit_Cooldown:
+mov esi,[ecx+18]
+cmp edi,esi
+//Alt: db 8B 71 18 3B FE
+
+unregistersymbol(Building_Cooldown)
+dealloc(newmem_Building_Cooldown)
+Building_Cooldown:
+push ebx
+push ebp
+mov ebp,[esi+04]
+//Alt: db 53 55 8B 6E 04
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>62</ID>
+      <Description>"High Damage Multiplier"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+aobscan(Damage_Multiplier,89 4D C8 89 4D CC 89 45 D8)
+registersymbol(Damage_Multiplier)
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+push eax
+push ebx
+cmp edi,0
+je originalcode
+mov ebx,edi
+mov ebx,[ebx+000001B0]
+cmp ebx,0
+je originalcode
+mov ebx,[ebx+08]
+mov ebx,[ebx+0C]
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode
+cmp eax,ebx
+je exit
+
+originalcode:
+pop ebx
+pop eax
+mov [ebp-38],ecx
+mov [ebp-34],ecx
+jmp returnhere
+
+exit:
+pop ebx
+pop eax
+mov [ebp-38],(Float)100000000
+mov [ebp-34],ecx
+jmp returnhere
+
+Damage_Multiplier:
+jmp newmem
+nop
+returnhere:
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+unregistersymbol(Damage_Multiplier)
+dealloc(newmem)
+Damage_Multiplier:
+mov [ebp-38],ecx
+mov [ebp-34],ecx
+//Alt: db 89 4D C8 89 4D CC
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>49</ID>
+      <Description>"Gain Veterancy"</Description>
+      <LastState Activated="1"/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+//code from here to '[DISABLE]' will be used to enable the cheat
+aobscan(Rank,8B 81 8C 01 00 00 85 C0)
+registersymbol(Rank)
+alloc(newmem,2048)
+label(returnhere)
+label(originalcode)
+label(exit)
+
+newmem: //this is allocated memory, you have read,write,execute access
+push eax
+push ebx
+cmp [eax+08],0
+je originalcode
+mov ebx,[eax+08]
+mov ebx,[ebx+000001B0]
+cmp ebx,0
+je originalcode
+mov ebx,[ebx+08]
+mov ebx,[ebx+0C]
+mov eax,[game.dat+62B688]
+mov eax,[eax+0C]
+cmp eax,0
+je originalcode
+cmp eax,ebx
+je exit
+
+originalcode:
+pop ebx
+pop eax
+mov eax,[eax+0C]
+ret 
+xor eax,eax
+jmp returnhere
+
+exit:
+pop ebx
+pop eax
+mov [eax+0C],#3
+mov eax,[eax+0C]
+ret
+xor eax,eax
+jmp returnhere
+
+Rank+0A:
+jmp newmem
+nop
+returnhere:
+
+[DISABLE]
+//code from here till the end of the code will be used to disable the cheat
+unregistersymbol(Rank)
+dealloc(newmem)
+Rank+0A:
+mov eax,[eax+0C]
+ret 
+xor eax,eax
+//Alt: db 8B 40 0C C3 33 C0
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>Damage_Taken_Return</Name>
+      <Address>00682D47</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Rank</Name>
+      <Address> 00549870</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Money_Decrease</Name>
+      <Address> 00500829</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Damage_Taken</Name>
+      <Address> 00682D19</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Instant_Unit_Upgrade</Name>
+      <Address> 005A0976</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Build</Name>
+      <Address> 00648E43</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>General_Cooldown</Name>
+      <Address> 00456A70</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Unit_Cooldown</Name>
+      <Address> 004C770F</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Building_Cooldown</Name>
+      <Address> 00686EB5</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>Damage_Multiplier</Name>
+      <Address> 004C8031</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+</CheatTable>
